@@ -1,0 +1,51 @@
+{% extends 'admin.html' %}
+
+{% block content %}
+<style>
+  .content {
+    margin-left: 250px;
+    padding: 100px 30px 30px 30px;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+  }
+
+  .navbar {
+    z-index: 1001;
+  }
+</style>
+
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">Admin Portal</a>
+    <span class="navbar-brand fw-bold">
+      {% if user %} 👤 Welcome, {{ user[1] }} {% endif %}
+    </span>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="content">
+  <h2 class="mb-4">All Applications</h2>
+
+  {% if applications %}
+    {% for app in applications %}
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Full Name:</strong> {{ app.full_name }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ app.email }}</li>
+            <li class="list-group-item"><strong>Phone:</strong> {{ app.phone }}</li>
+            <li class="list-group-item"><strong>Date of Birth:</strong> {{ app.dob.strftime('%Y-%m-%d') }}</li>
+            <li class="list-group-item"><strong>Department:</strong> {{ app.department }}</li>
+            <li class="list-group-item"><strong>SSC GPA:</strong> {{ app.ssc_result }}</li>
+            <li class="list-group-item"><strong>HSC GPA:</strong> {{ app.hsc_result }}</li>
+          </ul>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-warning mt-3">No application data available.</div>
+  {% endif %}
+</div>
+{% endblock %}

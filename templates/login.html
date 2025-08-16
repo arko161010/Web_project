@@ -1,0 +1,140 @@
+{% extends 'app.html' %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #f3f6fb;
+   
+  }
+
+  .main-content {
+    margin-left: 110px;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 56px; /* for navbar */
+  }
+
+  .login-card {
+    background: rgb(255, 255, 255);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 60px 40px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .login-card h2 {
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 2rem;
+    color: #000000;
+  }
+
+  .form-label {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .form-control {
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 1.1rem;
+    border: 1px solid #ced4da;
+  }
+
+  .btn-primary {
+    border-radius: 14px;
+    font-weight: 600;
+    padding: 14px;
+    font-size: 1.1rem;
+    background-color: #100e99;
+    border: none;
+  }
+
+  .btn-outline-secondary {
+    border-radius: 14px;
+    font-weight: 500;
+    padding: 13px;
+    font-size: 1.05rem;
+  }
+
+  .alert {
+    border-radius: 10px;
+  }
+
+</style>
+
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">🎓 Admission Portal</a>
+    <span class="navbar-brand fw-bold">
+      {% if user %} 👤 Welcome, {{ user[1] }} {% endif %}
+    </span>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <div class="login-card">
+    <h2>Login to Your Account</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="/login" method="POST">
+      {{ form.hidden_tag() }}
+
+      <div class="form-group mb-4">
+        {{ form.email.label(class="form-label", for="email") }}
+        {{ form.email(id="email", class="form-control") }}
+
+        {% if form.email.errors %}
+          <div class="text-danger mt-1">
+            <ul class="mb-0">
+              {% for error in form.email.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group mb-4">
+        {{ form.password.label(class="form-label", for="password") }}
+        {{ form.password(id="password", class="form-control") }}
+
+        {% if form.password.errors %}
+          <div class="text-danger mt-1">
+            <ul class="mb-0">
+              {% for error in form.password.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        {{ form.submit(class="btn btn-primary w-100") }}
+      </div>
+
+      <div class="form-group text-center mt-4">
+        <a href="/register" class="btn btn-outline-secondary w-100">Don't have an account? Register</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

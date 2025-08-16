@@ -1,0 +1,185 @@
+{% extends "app.html" %}
+
+{% block content %}
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+  }
+
+  .main-wrapper {
+    display: flex;
+  }
+
+  .content {
+    margin-left: 250px;
+    padding: 100px 30px 30px 30px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chat-container {
+    width: 100%;
+    max-width: 1000px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    overflow: hidden;
+  }
+
+  .chat-header {
+    padding: 15px 20px;
+    font-weight: bold;
+    font-size: 20px;
+    border-bottom: 1px solid #eee;
+    background-color: #f0f0f0;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .message {
+    max-width: 70%;
+    margin-bottom: 15px;
+    padding: 12px 18px;
+    border-radius: 15px;
+    font-size: 16px;
+    line-height: 1.4;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    word-wrap: break-word;
+  }
+
+  .message.user {
+    background-color: #daf0ff;
+    align-self: flex-end;
+    border-bottom-right-radius: 0;
+  }
+
+  .message.bot {
+    background-color: #e8e8e8;
+    align-self: flex-start;
+    border-bottom-left-radius: 0;
+  }
+
+  .chat-input {
+    display: flex;
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    background-color: #fff;
+  }
+
+  .chat-input input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+    margin-right: 10px;
+  }
+
+  .chat-input button {
+    border: none;
+    background-color: #1f3d5c;
+    color: #fff;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.3s ease;
+  }
+
+  .chat-input button:hover {
+    background-color: #224e7c;
+    transform: scale(1.05);
+  }
+</style>
+
+
+
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">🎓 Admission Portal</a>
+    <span class="navbar-brand fw-bold">
+      {% if user %} 👤 Welcome, {{ user[1] }} {% endif %}
+    </span>
+  </div>
+</nav>
+
+<!-- Chat Content -->
+<div class="content">
+  <div class="chat-container">
+    <div class="chat-header">DIU AI Chat Assistant</div>
+    <div class="chat-messages" id="chat-log">
+      
+    </div>
+    <div class="chat-input">
+      <input type="text" placeholder="Type your message..." id="chat-input">
+      <button id="send-btn" title="Send"><span>➤</span></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const chatLog = document.getElementById("chat-log");
+  const chatInput = document.getElementById("chat-input");
+  const sendBtn = document.getElementById("send-btn");
+
+  function appendMessage(text, sender) {
+    const msg = document.createElement("div");
+    msg.classList.add("message", sender);
+    msg.textContent = text;
+    chatLog.appendChild(msg);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  function handleUserMessage() {
+    const userText = chatInput.value.trim();
+    if (!userText) return;
+
+    appendMessage(userText, "user");
+
+    // Bot reply logic
+    let botReply = "Sorry, I didn't understand that.";
+    const lowerText = userText.toLowerCase();
+
+    if (["hi", "hello", "hey"].includes(lowerText)) {
+      botReply = "How can I assist you?";
+    } else if (lowerText.includes("apply")) {
+      botReply = "Yes, you can apply now through the Apply section.";
+    } else if (lowerText.includes("admission")) {
+      botReply = "Admission is currently open! Let me know if you need help.";
+    }
+
+    setTimeout(() => appendMessage(botReply, "bot"), 500);
+
+    chatInput.value = "";
+  }
+
+  sendBtn.addEventListener("click", handleUserMessage);
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleUserMessage();
+    }
+  });
+</script>
+
+{% endblock %}

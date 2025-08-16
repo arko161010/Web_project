@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Admission Assistant</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    .sidebar {
+      height: 100vh;
+      width: 250px;
+      background-color: #a1d1db;
+      padding-top: 70px; /* enough space for fixed navbar */
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar a {
+      color: rgb(8, 6, 6);
+      display: block;
+      padding: 15px 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background: #fff;
+      color: #1f3d5c;
+      border-radius: 10px;
+      margin: 0 10px;
+    }
+
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">Admin Portal</a>
+    <span class="navbar-brand fw-bold">
+      {% if user %} 👤 Welcome, {{ user[1] }} {% endif %}
+    </span>
+  </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  {% if session.user_id %}
+    <a href="/dash">Dashboard</a>
+    <a href="/student">Application Info</a>
+    <a href="/logout">Logout</a>
+  {% else %}
+    <a href="/log">Login</a>
+    <a href="/reg">Register</a>
+  {% endif %}
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  {% block content %}
+  {% endblock %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% extends 'app.html' %}
+
+{% block content %}
+<style>
+ 
+
+  .content {
+    margin-left: 250px;
+    padding: 100px 30px 30px 30px; /* top padding for navbar */
+    background-color: #f9f9f9;
+    min-height: 100vh;
+  }
+
+  .navbar {
+    z-index: 1001;
+  }
+</style>
+
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">🎓 Admission Portal</a>
+    <span class="navbar-brand fw-bold">
+      {% if user %} 👤 Welcome, {{ user[1] }} {% endif %}
+    </span>
+  </div>
+</nav>
+
+<!-- Sidebar + Content Wrapper -->
+
+
+  <!-- Main Content -->
+  <div class="content">
+    <h2 class="mb-4">Application Information</h2>
+
+    {% if user %}
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          {% if application %}
+            <ul class="list-group">
+              <li class="list-group-item"><strong>Full Name:</strong> {{ application.full_name }}</li>
+              <li class="list-group-item"><strong>Email:</strong> {{ application.email }}</li>
+              <li class="list-group-item"><strong>Phone:</strong> {{ application.phone }}</li>
+              <li class="list-group-item"><strong>Date of Birth:</strong> {{ application.dob.strftime('%Y-%m-%d') }}</li>
+              <li class="list-group-item"><strong>Department:</strong> {{ application.department }}</li>
+              <li class="list-group-item"><strong>SSC GPA:</strong> {{ application.ssc_result }}</li>
+              <li class="list-group-item"><strong>HSC GPA:</strong> {{ application.hsc_result }}</li>
+            </ul>
+          {% else %}
+            <div class="alert alert-warning mt-3">No application data available.</div>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <div class="alert alert-danger text-center">Please complete the application form</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

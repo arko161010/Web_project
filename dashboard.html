@@ -1,0 +1,105 @@
+{% extends 'app.html' %}
+
+{% block content %}
+<style>
+ 
+  .navbar {
+    z-index: 1001;
+  }
+  .amount-box {
+    border-radius: 12px;
+    padding: 20px;
+    color: #fff;
+  }
+  .amount-total {
+    background: linear-gradient(135deg, #4e73df, #224abe);
+  }
+  .amount-due {
+    background: linear-gradient(135deg, #e74a3b, #b02a1a);
+  }
+  .amount-paid {
+    background: linear-gradient(135deg, #1cc88a, #0f7654);
+  }
+  h2{
+    
+    margin-top: 55px;
+    height: 45px;
+    margin-left: 5px;
+  }
+</style>
+
+<!--Top Navigation Bar (Light) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">🎓 Admission Portal</a>
+    <span class="navbar-brand fw-bold">
+      {% if user %} 👤 Welcome, {{ user[1] }} {% endif %}
+    </span>
+  </div>
+</nav>
+
+
+
+
+<!-- Main Content Area -->
+<div class="content">
+  <!-- Flash Messages -->
+
+<div style="position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%); z-index: 1050; width: auto;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show text-center" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+  
+  
+
+  <h2>Dashboard</h2>
+
+  {% if user %}
+  <!-- Amount Summary Cards -->
+  
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="amount-box amount-total shadow">
+        <h5>Total Amount</h5>
+        <h3>৳ {{ total_amount or '20,000' }}</h3>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="amount-box amount-due shadow">
+        <h5>Due</h5>
+        <h3>৳ {{ due_amount or '0.00' }}</h3>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="amount-box amount-paid shadow">
+        <h5>Paid</h5>
+        <h3>৳ {{ paid_amount or '0.00' }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!--User Info Card -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title text-center">User Information</h4>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Name:</strong> {{ user[1] }}</li>
+        <li class="list-group-item"><strong>Email:</strong> {{ user[2] }}</li>
+      </ul>
+    </div>
+  </div>
+
+  {% else %}
+  <div class="alert alert-warning text-center mt-4">
+    <p>You are not logged in. Please <a href="/login" class="alert-link">Login</a> to access the dashboard.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

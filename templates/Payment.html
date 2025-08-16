@@ -1,0 +1,251 @@
+{% extends 'app.html' %}
+
+{% block content %}
+<style>
+ 
+       /* Global Styles */
+    
+
+            .content {
+            margin-left: 350px;
+            padding: 100px 30px 30px 30px; /* top padding for navbar */
+            background-color: #f9f9f9;
+            min-height: 80vh;
+        }
+
+        .navbar {
+             z-index: 1001;
+        }
+        /* Container Styles */
+        .payment-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 100px;
+            height: 110vh;
+            padding-top: 50px; /* To avoid navbar overlap */
+        }
+
+        .payment-form {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        h2 {
+            margin-bottom: 40px;
+            color: #333;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        /* Payment Method (Square Boxes) */
+        .payment-method {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            border: 2px solid #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        .payment-option input {
+            display: none;
+        }
+
+        .payment-option label {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: #e5e3e3;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .payment-option:hover {
+            background-color: #f1f1f1;
+        }
+
+        .payment-option input:checked + label {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .payment-option input:checked + label:hover {
+            background-color: #0056b3;
+        }
+
+        /* Custom Colors for Payment Methods */
+        #bkash:checked + label {
+            background-color: #ff69b4; /* Golapi color */
+            color: white;
+            border-color: #ff69b4;
+        }
+
+        #bkash:checked + label:hover {
+            background-color: #1414ff;
+        }
+
+        #nogod:checked + label {
+            background-color: #ff0000; /* Red */
+            color: white;
+            border-color: #ff0000;
+        }
+
+        #nogod:checked + label:hover {
+            background-color: #0000cc;
+        }
+
+        #rocket:checked + label {
+            background-color: #800080; /* Beguni color */
+            color: white;
+            border-color: #800080;
+        }
+
+        #rocket:checked + label:hover {
+            background-color: #270dac;
+        }
+        #bkash + label {
+            background-color: #ff1493; /* Light Pink */
+            color: #f5f5f5;
+        }
+
+        #nogod + label {
+            background-color: #cc0000; /* Light Red */
+            color: #ffffff;
+        }
+
+        #rocket + label {
+            background-color: #800080; /* Light Purple */
+            color: #ffffff;
+        }
+
+        /* Submit Button */
+        button.submit-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button.submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            .payment-form {
+                padding: 25px;
+            }
+
+            .payment-method {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+  
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">🎓 Admission Portal</a>
+      <span class="navbar-brand fw-bold">
+        {% if user %} 👤 Welcome, {{ user[1] }} {% endif %}
+      </span>
+    </div>
+  </nav>
+
+<div class="payment-container">
+    <div class="payment-form">
+        <h2>Choose Your Payment Method</h2>
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+            </div>
+            <div class="form-group">
+                <label>Payment Method</label>
+                <div class="payment-method">
+                    <!-- Bkash Option -->
+                    <div class="payment-option">
+                        <input type="radio" id="bkash" name="method" value="bkash" required>
+                        <label for="bkash">Bkash</label>
+                    </div>
+                    <!-- Nogod Option -->
+                    <div class="payment-option">
+                        <input type="radio" id="nogod" name="method" value="nagod" required>
+                        <label for="nogod">Nagad</label>
+                    </div>
+                    <!-- Rocket Option -->
+                    <div class="payment-option">
+                        <input type="radio" id="rocket" name="method" value="rocket" required>
+                        <label for="rocket">Rocket</label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">Payment</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

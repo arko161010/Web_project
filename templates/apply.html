@@ -1,0 +1,114 @@
+{% extends "app.html" %}
+
+{% block content %}
+<style>
+  
+  .navbar {
+    z-index: 1001;
+  }
+  .form-section {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+  .form-label {
+    font-weight: 600;
+    color: #333;
+  }
+  .form-control, .form-select {
+    transition: 0.3s ease;
+    border-radius: 10px;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #2c2d30;
+    box-shadow: 0 0 0 0.1rem rgba(78, 115, 223, 0.25);
+  }
+  .form-select {
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.input-group-text {
+  border-radius: 10px 0 0 10px;
+}
+
+.input-group .form-select {
+  border-radius: 0 10px 10px 0;
+}
+
+</style>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" >🎓Admission Portal</a>
+    <span class="navbar-brand fw-bold">
+      {% if user %} 👤 Welcome, {{ user[1] if user[1] else "User" }} {% endif %}
+    </span>
+  </div>
+</nav>
+
+
+
+<!-- Content -->
+<div class="content">
+  
+  <div class="container mt-4">
+    <div class="form-section">
+      <h2 class="text-center mb-4">Admission Application Form</h2>
+      <form method="POST" class="row gy-4 gx-5">
+        {{ form.hidden_tag() }}
+
+        <div class="col-md-6">
+          {{ form.full_name.label(class="form-label") }}
+          {{ form.full_name(class="form-control") }}
+        </div>
+
+        <div class="col-md-6">
+          {{ form.email.label(class="form-label") }}
+          {{ form.email(class="form-control") }}
+        </div>
+
+        <div class="col-md-6">
+          {{ form.phone.label(class="form-label") }}
+          {{ form.phone(class="form-control") }}
+        </div>
+
+        <div class="col-md-6">
+          {{ form.dob.label(class="form-label") }}
+          {{ form.dob(class="form-control") }}
+        </div>
+
+        <!-- Department -->
+        <div class="col-md-6">
+           <label for="department" class="form-label fw-semibold">Department</label>
+                <div class="input-group">
+                    <span class="">
+                    <i class="bi bi-mortarboard-fill"></i>
+                    </span>
+                        {{ form.department(class="form-select shadow-sm border border-primary", id="department") }}
+                </div>
+            <div class="form-text text-muted"></div>
+        </div>
+  
+
+        <div class="col-md-7">
+          {{ form.ssc_result.label(class="form-label") }}
+          {{ form.ssc_result(class="form-control") }}
+        </div>
+
+        <div class="col-md-7">
+          {{ form.hsc_result.label(class="form-label") }}
+          {{ form.hsc_result(class="form-control") }}
+        </div>
+
+        <div class="col-12 text-center mt-3">
+          {{ form.submit(class="btn btn-primary btn-lg px-5") }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

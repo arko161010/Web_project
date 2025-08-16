@@ -1,0 +1,148 @@
+{% extends 'admin.html' %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #f3f6fb;
+    margin: 0;
+  }
+
+  .main-content {
+    margin-left: 100px;
+    height: 90vh;
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .register-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .register-card h3 {
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 2rem;
+    color: #000000;
+  }
+
+  .form-label {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .form-control {
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 1.05rem;
+    box-shadow: none;
+    border: 1px solid #ced4da;
+  }
+
+  .btn-primary {
+    border-radius: 14px;
+    font-weight: 600;
+    padding: 14px;
+    font-size: 1.1rem;
+    background-color: #2e4864;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #182e46;
+  }
+
+  .text-muted a {
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .text-muted a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+
+  .alert {
+    border-radius: 10px;
+  }
+</style>
+
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold">Admin Portal</a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+  <div class="register-card">
+    <h3>Create Your Account</h3>
+    <form action="/reg" method="POST">
+      {{ form.hidden_tag() }}
+
+      <!-- Name -->
+      <div class="form-group mb-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+        {% if form.name.errors %}
+          <div class="text-danger small mt-1">
+            <ul class="mb-0">
+              {% for error in form.name.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Admin ID (instead of email) -->
+      <div class="form-group mb-3">
+        {{ form.admin_id.label(class="form-label") }}
+        {{ form.admin_id(class="form-control") }}
+        {% if form.admin_id.errors %}
+          <div class="text-danger small mt-1">
+            <ul class="mb-0">
+              {% for error in form.admin_id.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Password -->
+      <div class="form-group mb-4">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+        {% if form.password.errors %}
+          <div class="text-danger small mt-1">
+            <ul class="mb-0">
+              {% for error in form.password.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-group">
+        {{ form.submit(class="btn btn-primary w-100") }}
+      </div>
+
+      <!-- Login Link -->
+      <div class="form-group text-center mt-4 text-muted">
+        <span>Already have an account? <a href="/log">Login here</a></span>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
